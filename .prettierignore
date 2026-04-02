@@ -1,0 +1,69 @@
+# Dependencies
+node_modules
+
+# Next.js build output
+.next/
+out/
+build/
+
+# Production
+dist/
+
+# Testing
+coverage/
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env*
+!.env.example
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel
+.vercel
+
+# Cache directories
+.turbo/
+.cache/
+
+# Build artifacts
+*.min.js
+*.min.css
+
+# Generated files
+.next/types/
+.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Agent
+.agent/
+.agents/
