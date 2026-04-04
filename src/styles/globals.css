@@ -93,10 +93,21 @@
 
 @layer base {
   html {
-    @apply font-sans;
+    @apply font-sans antialiased;
   }
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.bg-grid {
+  background-image: radial-gradient(circle, oklch(92.8% 0.006 264.531) 0.8px, transparent 0.8px);
+  background-size: 24px 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .bg-grid {
+    background-image: radial-gradient(circle, oklch(27.8% 0.033 256.848) 0.8px, transparent 0.8px);
   }
 }
