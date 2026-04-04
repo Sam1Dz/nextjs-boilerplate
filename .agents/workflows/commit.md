@@ -42,13 +42,14 @@ Execute these steps in order. Do not skip ahead unless the user explicitly reque
 
 If `$ARGUMENTS` does **not** contain `--no-verify`:
 
-1. Run `npm run lint` and capture the result.
-2. Run `npm run build` and capture the result.
-3. If **either** command fails:
+1. Run `bun run lint` and capture the result.
+2. Run `bun run test` and capture the result.
+3. Run `bun run build` and capture the result.
+4. If **either** command fails:
    - Show the user the error output.
    - Ask: *"Pre-commit checks failed. Would you like to fix the issues first, or proceed with the commit anyway?"*
    - Wait for user decision before continuing.
-4. If **both** pass, proceed to Step 2.
+5. If **both** pass, proceed to Step 2.
 
 If `--no-verify` **is** present, skip to Step 2.
 
@@ -281,5 +282,5 @@ When the diff modifies:
 
 | Flag | Effect |
 |---|---|
-| `--no-verify` | Skip `npm run lint` and `npm run build` pre-commit checks |
+| `--no-verify` | Skip `bun run lint`, `bun run test` and `bun run build` pre-commit checks |
 | `--amend` | Amend the previous commit instead of creating a new one |
