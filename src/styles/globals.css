@@ -106,8 +106,6 @@
   background-size: 24px 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-  .bg-grid {
-    background-image: radial-gradient(circle, oklch(27.8% 0.033 256.848) 0.8px, transparent 0.8px);
-  }
+.dark .bg-grid {
+  background-image: radial-gradient(circle, oklch(27.8% 0.033 256.848) 0.8px, transparent 0.8px);
 }
