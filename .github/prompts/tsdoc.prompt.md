@@ -64,7 +64,7 @@ Use these standard TSDoc tags:
 
 Use this structure:
 
-```ts
+````ts
 /**
  * Short summary sentence (no period at the end).
  *
@@ -81,7 +81,7 @@ Use this structure:
  * @param props - The component props.
  * @returns The rendered element.
  */
-```
+````
 
 **Key points:**
 
@@ -94,7 +94,7 @@ Use this structure:
 
 Prefer TSDoc on the function/component rather than duplicating prop docs:
 
-```tsx
+````tsx
 /**
  * Primary call-to-action button used across the marketing site.
  *
@@ -109,7 +109,7 @@ Prefer TSDoc on the function/component rather than duplicating prop docs:
 export function CtaButton({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   // ...
 }
-```
+````
 
 If exporting a reusable prop type:
 
@@ -147,7 +147,7 @@ When documenting components that use:
 
 Good TSDoc examples for this project:
 
-```tsx
+````tsx
 /**
  * Custom hook for managing theme state with Next.js themes.
  *
@@ -169,9 +169,9 @@ Good TSDoc examples for this project:
 export function useTheme(): ThemeContextValue {
   // ...
 }
-```
+````
 
-```ts
+````ts
 /**
  * Formats a date using project-specific locale settings.
  *
@@ -192,7 +192,7 @@ export function useTheme(): ThemeContextValue {
 export function formatDate(date: Date, format: DateFormat = 'long'): string {
   // ...
 }
-```
+````
 
 ## Command Behavior
 
