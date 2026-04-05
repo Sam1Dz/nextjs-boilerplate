@@ -1,24 +1,23 @@
-'use client';
-
-import { Button, buttonVariants, Card, cn, Link, Tooltip, type PressEvent } from '@heroui/react';
+import { buttonVariants, Card, cn, Link } from '@heroui/react';
 import {
   IconBook,
   IconBrandTypescript,
-  IconCheck,
-  IconCopy,
+  IconCircleCheck,
+  IconDeviceDesktop,
   IconHexagon,
   IconMoon,
   IconShield,
   IconSun,
   IconTable,
   IconTerminal,
+  IconTool,
 } from '@tabler/icons-react';
 import Image from 'next/image';
 import * as React from 'react';
 
-import { useCopyToClipboard } from '~/components/hooks/useCopyToClipboard';
+import { ScriptsSection, type ScriptDefinition } from '~/app/_components/scripts-section';
 
-const scripts = [
+const scripts: readonly ScriptDefinition[] = [
   { name: 'dev', desc: 'Start development server', cmd: 'npm run dev' },
   {
     name: 'build',
@@ -26,6 +25,8 @@ const scripts = [
     cmd: 'npm run build',
   },
   { name: 'start', desc: 'Start production server', cmd: 'npm run start' },
+  { name: 'test', desc: 'Run Jest test suite', cmd: 'npm run test' },
+  { name: 'test:watch', desc: 'Run tests in watch mode', cmd: 'npm run test:watch' },
   { name: 'lint', desc: 'Run ESLint on the project', cmd: 'npm run lint' },
   {
     name: 'lint:fix',
@@ -77,19 +78,27 @@ const features = [
     title: 'Tailwind CSS v4',
     desc: 'Latest Tailwind with PostCSS plugin, CSS-first config, and tailwind-merge utility.',
   },
+  {
+    bg: 'bg-red-50 dark:bg-red-950',
+    icon: <IconTool className="size-5 text-red-500 dark:text-red-400" />,
+    title: 'Jest Testing',
+    desc: 'Full testing setup with Jest 30, jsdom environment, and ts-node for TypeScript test files.',
+  },
+  {
+    bg: 'bg-yellow-50 dark:bg-yellow-950',
+    icon: <IconCircleCheck className="size-5 text-yellow-500 dark:text-yellow-400" />,
+    title: 'Testing Library',
+    desc: 'DOM, Jest-DOM matchers, and React Testing Library for reliable component tests.',
+  },
+  {
+    bg: 'bg-sky-50 dark:bg-sky-950',
+    icon: <IconDeviceDesktop className="size-5 text-sky-500 dark:text-sky-400" />,
+    title: 'Watch Mode',
+    desc: 'Jest watch mode for rapid test-driven development with instant feedback on changes.',
+  },
 ];
 
 export default function Page() {
-  const [copiedScript, copyToClipboard] = useCopyToClipboard(3000);
-
-  const handleSmoothScroll = (e: PressEvent, targetId: string) => {
-    const target = document.querySelector(targetId);
-
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
     <React.Fragment>
       <main>
@@ -108,16 +117,16 @@ export default function Page() {
               <h1 className="mb-3.5 text-[40px] leading-[1.1] font-extrabold tracking-[-0.035em] max-md:text-[30px]">
                 Get started with Next.js
               </h1>
-              <p className="bg-background text-muted mx-auto mb-8 max-w-125 text-base leading-[1.7]">
+              <p className="text-muted mx-auto mb-8 max-w-125 text-base leading-[1.7]">
                 A production-ready starter with TypeScript, Tailwind CSS v4, HeroUI, React Compiler,
-                ESLint, and Prettier — configured and ready to go.
+                Jest, ESLint, and Prettier — configured and ready to go.
               </p>
 
               <div className="flex flex-wrap items-center justify-center gap-3 max-[480px]:flex-col">
-                <Button onPress={e => handleSmoothScroll(e, '#scripts')}>
+                <Link className={cn('flex gap-2', buttonVariants({ size: 'md' }))} href="#scripts">
                   <IconTerminal />
                   View Scripts
-                </Button>
+                </Link>
                 <Link
                   className={cn('flex gap-2', buttonVariants({ variant: 'tertiary', size: 'md' }))}
                   href="https://nextjs.org/docs"
@@ -162,6 +171,15 @@ export default function Page() {
                   <div className="mt-1 flex items-center gap-2.5">
                     <span className="font-semibold text-green-500 select-none">&#10095;</span>
                     <span className="text-[oklch(0.8787_0.0426_272.28)]">
+                      npm run <span className="text-[oklch(0.7664_0.1113_259.88)]">test</span>
+                    </span>
+                  </div>
+                  <div className="pl-5.5 text-xs text-[oklch(0.4765_0.034_278.64)]">
+                    # Run Jest test suite
+                  </div>
+                  <div className="mt-1 flex items-center gap-2.5">
+                    <span className="font-semibold text-green-500 select-none">&#10095;</span>
+                    <span className="text-[oklch(0.8787_0.0426_272.28)]">
                       npm run <span className="text-[oklch(0.7664_0.1113_259.88)]">lint:fix</span>{' '}
                       && npm run <span className="text-[oklch(0.7664_0.1113_259.88)]">format</span>
                     </span>
@@ -181,48 +199,7 @@ export default function Page() {
               Scripts
             </div>
             <div className="text-xl font-bold tracking-[-0.02em]">Available commands</div>
-
-            <div className="mt-5 grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-2.5 max-md:grid-cols-1">
-              {scripts.map(script => {
-                const isCopied = copiedScript === script.cmd;
-
-                return (
-                  <Card key={script.name}>
-                    <Card.Content className="flex flex-row items-start justify-between gap-3">
-                      <div className="min-w-0 flex-1 p-0">
-                        <div className="text-foreground mb-0.5 font-mono text-[13px] font-semibold">
-                          {script.name}
-                        </div>
-                        <div className="text-muted text-xs">{script.desc}</div>
-                        <div className="mt-2 inline-block rounded-md bg-[oklch(0.2429_0.0304_283.91)] px-2 py-0.75 font-mono text-[11px] whitespace-nowrap text-[oklch(0.8787_0.0426_272.28)]">
-                          {script.cmd}
-                        </div>
-                      </div>
-
-                      <Tooltip delay={0}>
-                        <Button
-                          isIconOnly
-                          isDisabled={isCopied}
-                          size="sm"
-                          variant="ghost"
-                          onPress={() => {
-                            if (!isCopied) {
-                              void copyToClipboard(script.cmd);
-                            }
-                          }}
-                        >
-                          {isCopied ? <IconCheck className="text-success" /> : <IconCopy />}
-                        </Button>
-
-                        <Tooltip.Content>
-                          <p>Copy</p>
-                        </Tooltip.Content>
-                      </Tooltip>
-                    </Card.Content>
-                  </Card>
-                );
-              })}
-            </div>
+            <ScriptsSection scripts={scripts} />
           </div>
         </section>
 
@@ -234,8 +211,8 @@ export default function Page() {
             <div className="text-xl font-bold tracking-[-0.02em]">What&apos;s included</div>
 
             <div className="mt-5 grid grid-cols-3 gap-3.5 max-md:grid-cols-1">
-              {features.map((feature, index) => (
-                <Card key={index}>
+              {features.map(feature => (
+                <Card key={feature.title}>
                   <Card.Content className="block">
                     <div
                       className={cn(
@@ -274,6 +251,15 @@ export default function Page() {
               target="_blank"
             >
               React Docs
+              <Link.Icon />
+            </Link>
+            <Link
+              className="text-muted hover:text-foreground no-underline transition-all duration-150 hover:underline"
+              href="https://jestjs.io/docs/getting-started"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Jest Docs
               <Link.Icon />
             </Link>
             <Link
