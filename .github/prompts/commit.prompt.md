@@ -138,7 +138,7 @@ When the diff modifies:
 ```
 <emoji> <type>: <description>
 
-<optional body>
+<body>
 
 <optional footer>
 ```
