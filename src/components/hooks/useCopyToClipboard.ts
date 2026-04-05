@@ -73,8 +73,10 @@ export function useCopyToClipboard(
       }
     }
 
+    let textArea: HTMLTextAreaElement | null = null;
+
     try {
-      const textArea = document.createElement('textarea');
+      textArea = document.createElement('textarea');
 
       textArea.value = text;
       textArea.setAttribute('readonly', '');
@@ -87,8 +89,6 @@ export function useCopyToClipboard(
       textArea.select();
 
       const didCopy = document.execCommand('copy');
-
-      document.body.removeChild(textArea);
 
       if (!didCopy) {
         clearResetTimeout();
@@ -104,6 +104,10 @@ export function useCopyToClipboard(
       setCopiedText(null);
 
       return false;
+    } finally {
+      if (textArea && document.body.contains(textArea)) {
+        document.body.removeChild(textArea);
+      }
     }
   };
 
