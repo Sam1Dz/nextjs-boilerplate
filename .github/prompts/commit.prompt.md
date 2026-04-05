@@ -38,11 +38,11 @@ If `$ARGUMENTS` does **not** contain `--no-verify`:
 1. Run `bun run lint` and capture the result.
 2. Run `bun run test` and capture the result.
 3. Run `bun run build` and capture the result.
-4. If **either** command fails:
+4. If any of the three commands (`lint`, `test`, `build`) fails:
    - Show the user the error output.
    - Ask: *"Pre-commit checks failed. Would you like to fix the issues first, or proceed with the commit anyway?"*
    - Wait for user decision before continuing.
-5. If **both** pass, proceed to Step 2.
+5. If all three commands (`lint`, `test`, `build`) pass, proceed to Step 2.
 
 If `--no-verify` **is** present, skip to Step 2.
 
