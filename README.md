@@ -27,7 +27,7 @@ A production-ready Next.js 16 starter with React 19, HeroUI, Tailwind CSS v4, Ty
 
 ```bash
 bun install
-bun dev
+bun run dev
 ```
 
 The app starts locally at `http://localhost:3000`.
