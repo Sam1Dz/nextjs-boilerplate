@@ -11,30 +11,35 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## Code Style
 
 - Next.js 16 App Router using `src/app` directory structure.
-- **React 19** with React Compiler enabled (manual `useMemo`/`useCallback` generally not needed).
-- **HeroUI** (`@heroui/react`) combined with **Tailwind CSS v4** for UI components.
-- Written in TypeScript. Path aliases use `~/` instead of `@/` (e.g. `~/components/...`).
-- Use the `tsdoc` workflow (`/tsdoc`) to generate comprehensive TSDoc comments for components.
-- Run `bun run format` (Prettier) and `bun run lint:fix` (ESLint) to align code automatically.
+- React 19 with React Compiler enabled (`reactCompiler: true` in `next.config.ts`), so manual `useMemo`/`useCallback` is usually unnecessary unless profiling proves a need.
+- HeroUI (`@heroui/react`) with Tailwind CSS v4. Shared design tokens live in `src/styles/globals.css`.
+- TypeScript strict mode with `~/` path alias to `src` (see `tsconfig.json`). Prefer `~/...` imports for app code.
+- Add comprehensive TSDoc comments for exported hooks/components/utilities and keep syntax valid (`tsdoc/syntax` is enforced as a warning).
+- Run `bun run format` and `bun run lint:fix` after edits to align with project style and lint rules.
 
 ## Architecture
 
-- **Server Components by Default:** Keep components as Server Components unless browser API or interactivity is explicitly required (requires `use client`).
-- Push `use client` boundaries as deep into the component tree as possible.
-- Adhere to the latest Next.js 16 caching, routing, and data fetching paradigms.
+- Server Components by default. Add `use client` only where browser APIs or interactivity are required.
+- Push client boundaries as deep as possible (for example: route shell in `src/app/page.tsx`, interactivity in `src/app/_components/...`).
+- Mount app-wide providers via `src/components/providers/base.tsx`; keep root layout focused on document shell concerns.
+- Keep cross-cutting config in `src/config` (for example `fonts.ts`, `site.ts`) instead of duplicating setup in route files.
+- For full architectural patterns and recipes, link to `docs/TECH_DOCS.md` instead of re-embedding large guidance.
 
 ## Build and Test
 
-- Package manager: **Bun**
+- Package manager: Bun
 - Install dependencies: `bun install`
 - Start dev server: `bun dev`
-- Build for production: `bun run build`
-- Lint code: `bun run lint`
-- Tests: **Jest** + **Testing Library**.
-  - Run tests with `bun run test` or `bun run test:watch`.
-  - All tests should be placed in the `__test__` directory and follow the corresponding structure in `src/` (e.g., `__test__/components/...`).
+- Build and run production: `bun run build` then `bun run start`
+- Lint: `bun run lint`
+- Auto-fix lint issues: `bun run lint:fix`
+- Format: `bun run format`
+- Test: `bun run test` or `bun run test:watch` (Jest + Testing Library, jsdom environment)
+- Keep tests in `__test__` mirroring `src` structure (example: `src/components/hooks/useCopyToClipboard.ts` and `__test__/components/hooks/useCopyToClipboard.test.tsx`).
 
 ## Conventions
 
 - Use Conventional Commits (`/commit` workflow).
-- Link, don't embed: For deep or detailed standards, link to an external `.md` doc.
+- Respect typed routes (`typedRoutes: true`): links and route paths should map to actual files in `src/app`.
+- Prefer server-first composition: fetch/compose data in server routes/components and pass plain props into client islands.
+- Link, do not embed: point to `docs/TECH_DOCS.md` and `README.md` for deep details instead of duplicating long documentation here.
